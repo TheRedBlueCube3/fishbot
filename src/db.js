@@ -8,11 +8,14 @@ class Database {
 	}
 
 	_load() {
-		const data = fs.readFileSync(this.path, { encoding: 'utf-8', mode: 'r' });
-		console.log(data);
+		const data = fs.readFileSync(this.path);
+		this.data = JSON.parse(data);
+	}
+
+	sync() {
+		const out = JSON.stringify(this.data);
+		fs.writeFileSync(this.path, out);
 	}
 }
 
-// again please
-
-const test = new Database('..\\db\\inventories.json');
+module.exports = { Database };
