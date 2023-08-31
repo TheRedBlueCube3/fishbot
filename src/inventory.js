@@ -36,3 +36,5 @@ class Inventory {
 		return "bought";
 	}
 }
+
+module.exports = { Inventory };
