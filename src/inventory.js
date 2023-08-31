@@ -24,6 +24,11 @@ class Inventory {
 		return db.data[this.id].money;
 	}
 
+	addMoney(amount) {
+		db.data[this.id].money += amount;
+		db.sync();
+	}
+
 	buy(itemID) { // buys a rod
 		if (db.data[this.id].money < items.rods[itemID].price) {
 			return "insufficient_funds";
