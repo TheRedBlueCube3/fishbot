@@ -29,6 +29,11 @@ class Inventory {
 		db.sync();
 	}
 
+	removeMoney(amount) {
+		db.data[this.id].money -= amount;
+		db.sync();
+	}
+
 	buy(itemID) { // buys a rod
 		if (db.data[this.id].money < items.rods[itemID].price) {
 			return "insufficient_funds";
@@ -40,6 +45,16 @@ class Inventory {
 
 		return "bought";
 	}
+
+	sell(itemID) { // sells a rod
+		if (!(itemID in db.data[this.id].items)) {
+			return "item_not_present";
+		}
+
+		db.data[this.id].items.splice(db.data[this.id].items.indexOf(itemID));
+		db.sync();
+
+		return "sold";
 }
 
 module.exports = { Inventory };
