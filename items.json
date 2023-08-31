@@ -1,0 +1,79 @@
+{
+	"fish": [
+		"Bass",
+		"Silver Carp",
+		"Swordfish",
+		"Brown Trout",
+		"Mahi-mahi",
+		"Brook Trout",
+		"Flounder",
+		"Anchovy",
+		"Pollock",
+		"Haddock"
+	],
+	"rods": [
+		{
+			"name": "Plastic Bucket",
+			"price": 0,
+			"rarity": 0,
+			"timeStart": 150,
+			"timeEnd": 300
+		},
+		{
+			"name": "Wooden Rod",
+			"price": 10,
+			"rarity": 0,
+			"timeStart": 60,
+			"timeEnd": 75
+		},
+		{
+			"name": "Aluminum Rod",
+			"price": 50,
+			"rarity": 0,
+			"timeStart": 40,
+			"timeEnd": 55
+		},
+		{
+			"name": "Graphite Rod",
+			"price": 150,
+			"rarity": 1,
+			"timeStart": 30,
+			"timeEnd": 45
+		},
+		{
+			"name": "Copper Rod",
+			"price": 200,
+			"rarity": 1,
+			"timeStart": 20,
+			"timeEnd": 35
+		},
+		{
+			"name": "Sapphire Rod",
+			"price": 250,
+			"rarity": 2,
+			"timeStart": 10,
+			"timeEnd": 25
+		},
+		{
+			"name": "Diamond Rod",
+			"price": 500,
+			"rarity": 3,
+			"timeStart": 5,
+			"timeEnd": 15
+		},
+		{
+			"name": "Ruby Rod",
+			"price": 2000,
+			"rarity": 4,
+			"timeStart": 1,
+			"timeEnd": 10
+		},
+		{
+			"name": "Purposefully Bad Rod",
+			"price": 15000,
+			"rarity": 4,
+			"timeStart": 300,
+			"timeEnd": 600
+		}
+	]
+}
