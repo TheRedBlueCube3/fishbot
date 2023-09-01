@@ -1,17 +1,23 @@
-const { Database } = require("./db.js");
-const fs = require("fs");
+const { Database } = require('./db.js');
+const fs = require('fs');
 
-const db = new Database("../db/inventories.json"); // i am on linux, comment this out and use the other line of code!
-//const db = Database("..\\db\\inventories.json");
+const db = new Database('../db/inventories.json'); // i am on linux, comment this out and use the other line of code!
 
-const items = JSON.parse(fs.readFileSync("../items.json"));
-//const items = JSON.parse(fs.readFileSync("..\\items.json"));
+const items = require('../items.json');
 
 class Inventory {
 	constructor(id) {
 		this.id = id;
-		if(db.data[id] == undefined) {
-			db.data[id] = { "money": 0, "items": [] };
+		if (db.data[id] == undefined) {
+			db.data[id] = {
+				money: 150,
+				items: {
+					rods: ['Plastic Bucket'],
+					fish: ['Bass', 'Bass', 'Bass', 'Silver Carp', 'Flounder'],
+					other: []
+				},
+				usingRod: 'Plastic Bucket'
+			};
 			db.sync();
 		}
 	}
@@ -34,27 +40,41 @@ class Inventory {
 		db.sync();
 	}
 
-	buy(itemID) { // buys a rod
+	buy(itemID, amount) {
+		// buys a fish
 		if (db.data[this.id].money < items.rods[itemID].price) {
-			return "insufficient_funds";
+			return 'insufficient_funds';
 		}
 
-		db.data[this.id].items.push(itemID);
-		db.data[this.id].money -= items.rods[itemID].price;
-		db.sync()
+		db.data[this.id].items.rods.push(items.rods[itemID]);
+		this.removeMoney(items.rods[itemID].price);
+		db.sync();
 
-		return "bought";
+		return 'bought';
 	}
 
-	sell(itemID) { // sells a rod
+	sell(itemID, price, amount) {
+		// sells a fish
 		if (!(itemID in db.data[this.id].items)) {
-			return "item_not_present";
+			return 'item_not_present';
 		}
 
 		db.data[this.id].items.splice(db.data[this.id].items.indexOf(itemID));
+		db.data.market[this.id].push({ item: items.fish[itemID] });
+		this.addMoney(price);
 		db.sync();
 
-		return "sold";
+		return 'sold';
+	}
+
+	setRod(itemID) {
+		if (!(itemID in db.data[this.id].items)) return 'item_not_present';
+		if (!(itemID in db.data[this.id].items.rods)) return 'item_not_rod';
+		db.data[this.id].usedRod = items.rods[itemID];
+		db.sync();
+
+		return 'set';
+	}
 }
 
 module.exports = { Inventory };
