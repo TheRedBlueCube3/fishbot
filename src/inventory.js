@@ -1,22 +1,22 @@
-const { Database } = require('./db.js');
+//const { Database } = require('./db.js');
 const fs = require('fs');
 
-const db = new Database('../db/inventories.json'); // i am on linux, comment this out and use the other line of code!
+//const db = new Database('../db/inventories.json'); // i am on linux, comment this out and use the other line of code!
 
 const items = require('../items.json');
 
 class Inventory {
-	constructor(id) {
+	constructor(id, db) {
 		this.id = id;
 		if (db.data[id] == undefined) {
 			db.data[id] = {
 				money: 150,
 				items: {
-					rods: ['Plastic Bucket'],
-					fish: ['Bass', 'Bass', 'Bass', 'Silver Carp', 'Flounder'],
+					rods: [0],
+					fish: [0, 0, 0, 1, 6],
 					other: []
 				},
-				usingRod: 'Plastic Bucket'
+				usingRod: 0
 			};
 			db.sync();
 		}
@@ -30,6 +30,10 @@ class Inventory {
 		return db.data[this.id].money;
 	}
 
+	getUsingRod() {
+		return db.data[this.id].usingRod;
+	}
+
 	addMoney(amount) {
 		db.data[this.id].money += amount;
 		db.sync();
@@ -41,14 +45,13 @@ class Inventory {
 	}
 
 	buy(itemID, amount) {
-		// buys a fish
+		// buys a rod
 		if (db.data[this.id].money < items.rods[itemID].price) {
 			return 'insufficient_funds';
 		}
 
 		db.data[this.id].items.rods.push(items.rods[itemID]);
 		this.removeMoney(items.rods[itemID].price);
-		db.sync();
 
 		return 'bought';
 	}
@@ -62,7 +65,6 @@ class Inventory {
 		db.data[this.id].items.splice(db.data[this.id].items.indexOf(itemID));
 		db.data.market[this.id].push({ item: items.fish[itemID] });
 		this.addMoney(price);
-		db.sync();
 
 		return 'sold';
 	}
@@ -74,6 +76,11 @@ class Inventory {
 		db.sync();
 
 		return 'set';
+	}
+
+	pushFish(fish) {
+		db.data[this.id].items.fish.push(fish);
+		db.sync();
 	}
 }
 
