@@ -9,7 +9,7 @@ const _ = require('lodash');
 const { token } = require('../config.json');
 const { fish, rods } = require('../items.json');
 const { Inventory } = require('./inventory');
-const { Database } = require("./db");
+const { Database } = require('./db');
 const prefix = 'f!';
 const client = new Client({
 	intents: [
@@ -26,6 +26,7 @@ client.once(Events.ClientReady, c => {
 		type: ActivityType.Playing
 	});
 });
+let fishSessions = [];
 client.on(Events.MessageCreate, async msg => {
 	/*
 	if (msg.content === `${prefix}createprofile`) {
@@ -36,22 +37,28 @@ client.on(Events.MessageCreate, async msg => {
 	} inventory.js already takes care of this!!!
 	*/
 	if (msg.content === `${prefix}fish`) {
-		let inventory = Inventory(msg.author.id, db)
+		let inventory = new Inventory(msg.author.id, db);
 		let randomFish = fish[Math.floor(Math.random() * fish.length)];
 		let timeInBetween = _.random(
 			rods[inventory.getUsingRod()].timeStart,
 			rods[inventory.getUsingRod()].timeEnd
 		);
 		await msg.reply('Fishing... (this will depend on your rod)');
+		fishSessions.push(msg.author.id);
 		setTimeout(async () => {
-			let rn = random(0, 1);
+			let rn = _.random(0, 1);
 			if (rn == 1) {
-				await msg.reply(`Congratulations, you found: ${randomFish}!`);
+				await msg.reply(
+					`Congratulations, you found ${randomFish} in ${timeInBetween} seconds!`
+				);
 				inventory.pushFish(randomFish);
 			} else {
-				await msg.reply(`You **did not** catch a fish. :picardia_sad:`);
+				await msg.reply(
+					`You **did not** catch a fish. <:picardia_sad:1097841784136138753>`
+				);
 			}
-		}, timeInBetween);
+			fishSessions.splice(fishSessions.indexOf(msg.author.id), 1);
+		}, timeInBetween * 1000);
 	}
 });
 
