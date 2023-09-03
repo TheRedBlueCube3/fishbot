@@ -82,7 +82,7 @@ class Inventory {
 	}
 	pushFish(fishType) {
 		this.db.data[this.id].items.fish.push(
-			items.rods.findIndex(fish => fish.name == fishType)
+			items.rods.findIndex(fish => fish == fishType)
 		);
 		this.db.sync();
 	}
