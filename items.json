@@ -2,14 +2,14 @@
 	"fish": [
 		"Bass",
 		"Silver Carp",
-		"Swordfish",
-		"Brown Trout",
-		"Mahi-mahi",
-		"Brook Trout",
 		"Flounder",
-		"Anchovy",
+		"Brook Trout",
+		"Mahi-mahi",
+		"Brown Trout",
 		"Pollock",
-		"Haddock"
+		"Anchovy",
+		"Haddock",
+		"Swordfish"
 	],
 	"rods": [
 		{
