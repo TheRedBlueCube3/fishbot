@@ -1,9 +1,7 @@
 // const { Database } = require('./this.db.js');
 const fs = require('fs');
 
-// const this.db = new Database('../this.db/inventories.json'); // i am on linux, comment this out and use the other line of code!
-
-const items = require('../items.json');
+const items = require('../items.json'); // <--- wait this works??? genius
 
 class Inventory {
 	constructor(id, db) {

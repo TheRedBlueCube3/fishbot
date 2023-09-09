@@ -76,6 +76,29 @@ client.on(Events.MessageCreate, async msg => {
 			fishSessions.splice(fishSessions.indexOf(msg.author.id), 1);
 		}, timeInBetween * 1000);
 	}
+	if(msg.content === `${prefix}inventory`) {
+		let inventory = new Inventory(msg.author.id, db);
+		let invmap = [];
+		for (let i=0; i < fish.length; i++) { // i am giving YOU the challenge of refactoring this, because i cannot code in js very well
+			invmap.push(0);
+		}
+
+		let fishies = inventory.getItems().fish
+		for (let i=0; i < fishies.length; i++) {
+			let val = fishies[i];
+			invmap[val]++;
+		}
+
+		let out = "";
+		for (let i=0; i < fish.length; i++) {
+			out += `${fish[i]} \`${invmap[i]}x\`\n`
+		}
+		const embed = new EmbedBuilder()
+				.setColor(0x00ffff)
+				.setTitle("Inventory")
+				.setDescription(out)
+		await msg.reply({ embeds: [embed] });
+	}
 });
 
 client.login(token);
