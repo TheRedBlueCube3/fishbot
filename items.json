@@ -75,5 +75,23 @@
 			"timeStart": 300,
 			"timeEnd": 600
 		}
+	],
+	"other": [
+		{
+			"name": "Fridge",
+			"price": 5000,
+			"rarity": 3,
+			"use": 0
+		},
+		{
+			"name": "Worms (10)",
+			"rarity": 0,
+			"price": 15
+		},
+		{
+			"name": "Worms (20)",
+			"rarity": 0,
+			"price": 25
+		}
 	]
 }

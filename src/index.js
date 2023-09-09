@@ -22,11 +22,15 @@ const client = new Client({
 const db = new Database('../db/inventories.json');
 client.once(Events.ClientReady, c => {
 	console.log(c.user.tag);
-	c.user.setActivity(`${prefix}help for cmds`, {
-		type: ActivityType.Playing
-	});
+	c.user.setActivity(
+		`fishing in ${client.guilds.cache.size} servers, f!help to get started`,
+		{
+			type: ActivityType.Playing
+		}
+	);
 });
 let fishSessions = [];
+let commands = ['', 'help', 'fish'];
 client.on(Events.MessageCreate, async msg => {
 	/*
 	if (msg.content === `${prefix}createprofile`) {
@@ -36,7 +40,19 @@ client.on(Events.MessageCreate, async msg => {
 		await msg.reply('Profile successfully created!');
 	} inventory.js already takes care of this!!!
 	*/
-	if (msg.content === `${prefix}fish`) {
+	if (msg.content.startsWith(`${prefix}help`)) {
+		let embed = new EmbedBuilder()
+			.setColor('Green')
+			.setDescription(`${commands.join(`\n${prefix}`)}`)
+			.setFooter({ text: 'this is all of the commands bro' })
+			.setTitle('Commands');
+		await msg.reply({ embeds: [embed] });
+	}
+	if (msg.content.startsWith(`${prefix}fish`)) {
+		console.log(fishSessions);
+		if (fishSessions.includes(msg.author.id)) {
+			return await msg.reply('**You already are fishing!**');
+		}
 		let inventory = new Inventory(msg.author.id, db);
 		let randomFish = fish[Math.floor(Math.random() * fish.length)];
 		let timeInBetween = _.random(

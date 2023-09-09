@@ -79,7 +79,11 @@ class Inventory {
 		return 'set';
 	}
 	pushFish(fishType) {
+<<<<<<< HEAD
+		this.db.data[this.id].items.fish.push(items.fish.indexOf(fishType));
+=======
 		this.db.data[this.id].items.fish.push(items.fish.indexOf(fishType))
+>>>>>>> 0e740e3abbc478ffd7f86bdda25e61bdfed14423
 		this.db.sync();
 	}
 }
